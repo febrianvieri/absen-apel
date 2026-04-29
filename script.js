@@ -202,8 +202,39 @@ async function submitAbsen() {
     return;
   }
 
+  // 🔥 CEK SUDAH ABSEN ATAU BELUM
+  const snapshot = await get(ref(window.db, "attendance"));
+  const data = snapshot.val();
+
+  const today = new Date().toLocaleDateString("id-ID", {
+    timeZone: "Asia/Jakarta",
+  });
+
+  let sudahAbsen = false;
+
+  if (data) {
+    for (let key in data) {
+      const item = data[key];
+
+      if (
+        item.nama.toLowerCase() === nama.toLowerCase() &&
+        item.waktu === today
+      ) {
+        sudahAbsen = true;
+        break;
+      }
+    }
+  }
+
+  if (sudahAbsen) {
+    alert("Nama ini sudah melakukan absen hari ini ❌");
+    resetBtn(btn);
+    return;
+  }
+
   btn.innerText = "Uploading...";
   btn.disabled = true;
+
 
   try {
     // 🔥 compress
