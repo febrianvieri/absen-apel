@@ -17,7 +17,15 @@ async function pilihBagian(b) {
   document.getElementById("menu").classList.add("hidden");
   document.getElementById("formAbsen").classList.remove("hidden");
 
-  document.getElementById("judul").innerText = "Absen " + b;
+  // 🔥 mapping nama tampilan
+  let label = b;
+
+  if (b === "PK") label = "Program Keuangan";
+  if (b === "UMUM") label = "Umum";
+  if (b === "PUU") label = "PUU";
+  if (b === "FASGARWAS") label = "Fasgarwas";
+
+  document.getElementById("judul").innerText = "Absen " + label;
 
   // 🔥 HEADER COLOR
   const header = document.getElementById("headerTitle");
@@ -291,7 +299,10 @@ async function submitAbsen() {
     });
 
     btn.innerText = "Berhasil!";
-    setTimeout(() => location.reload(), 1000);
+
+    alert("✅ Absen berhasil!\nTerima kasih 🙏");
+
+    location.reload();
   } catch (err) {
     console.error(err);
     alert(err.message || "Gagal upload");
